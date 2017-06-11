@@ -6,11 +6,9 @@
 
 declare -a dotfile_whitelist=(
   .bash_profile\
+  .zshrc\
   .bash_includes\
-  .gitconfig-shared\
   .gitignore\
-  .inputrc\
-  .screenrc\
   .tmux.conf\
   .vim\
   .vimrc\
