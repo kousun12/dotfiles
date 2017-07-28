@@ -1,4 +1,4 @@
-export ZSH=/Users/finshared/.oh-my-zsh
+export ZSH='~/.oh-my-zsh'
 
 ZSH_THEME="robbyrussell"
 plugins=(git zsh-syntax-highlighting)
