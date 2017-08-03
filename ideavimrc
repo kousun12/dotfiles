@@ -1,0 +1,126 @@
+"Simple switching between hard tabs and spaces
+command! -nargs=* HardTab setlocal noexpandtab shiftwidth=4
+command! -nargs=? SoftTab setlocal expandtab tabstop=<args> shiftwidth=<args> softtabstop=<args>
+
+set number
+set et
+set sw=2
+set smarttab
+" set smartindent
+set incsearch
+set hlsearch
+set smartcase
+set cursorline
+" set cursorcolumn
+set title
+set ruler
+set showmode
+set showcmd
+set ai " Automatically set the indent of a new line (local to buffer)
+set ma " Allow modifiable (give nerdtree ability to modify files)
+set tags=./tags;
+set grepprg=rg
+" set text width so gq-like commands wrap at 100 chars
+set tw=100
+" new regex engine seems to be really slow, particularly with ruby. Set to previous one
+set re=1
+
+set equalalways " Multiple windows, when created, are equal in size
+set splitbelow splitright
+
+set mouse=a  " enable scroll with mouse wheel
+
+let mapleader=","
+
+" Turn off Ex mode which I only ever enter by accident
+nnoremap Q <Nop>
+
+" cursorline only in active buffer
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
+" Language-specific settings
+autocmd FileType python set nosmartindent list shiftwidth=4 softtabstop=4
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType python nmap ,8 :call Pep8()<CR>
+
+autocmd FileType ruby set expandtab shiftwidth=2 softtabstop=2
+autocmd FileType yaml set expandtab shiftwidth=2 softtabstop=2
+
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd Filetype javascript set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+
+autocmd FileType html SoftTab 2
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html.handlebars SoftTab 2
+autocmd FileType css SoftTab 2
+autocmd FileType scss SoftTab 2
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType text set wrap linebreak
+
+augroup mkd
+  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
+augroup END
+
+autocmd FileType markdown set formatoptions=cqln
+
+" Custom filetypes
+au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru,.caprc,.irbrc,irb_tempfile*} set ft=ruby
+au BufRead,BufNewFile {*.less,*.sass} set ft=css
+au BufRead,BufNewFile *.us set ft=html "our underscore.js html templates
+au BufRead,BufNewFile {*.tfstate,*.tfstate.backup} set ft=json
+
+" Open useful sidebars (taglist, nerdtree), and navigation tools
+nnoremap ,w :TlistToggle<CR>
+nnoremap ,W :NERDTreeToggle<CR>
+nnoremap <C-p> :FZF<CR>
+" fix backspace in vim 7
+:set backspace=indent,eol,start
+
+""" Clipboard
+" copy all to clipboard
+nmap ,a ggVG"*y
+" copy word to clipboard
+nmap ,d "*yiw
+" copy highlighted to clipboard
+vmap ,c "*y
+" paste 
+nmap ,v :set paste<CR>"*p:set nopaste<CR>
+" underline current line, markdown style
+nmap ,u "zyy"zp:.s/./-/g<CR>:let @/ = ""<CR>
+
+" delete inner xml tag
+nmap ,dit dt<dT>
+nmap ,cit dt<cT>
+"
+"clear the search buffer, not just remove the highlight
+map \c :let @/ = ""<CR>
+
+" Revert the current buffer
+nnoremap \r :e!<CR>
+"Allow setting a hard tab with shift+Tab
+:inoremap <S-Tab> <C-V><Tab>
+
+" w!! to write with sudo
+cnoreabbrev <expr> w!!
+    \((getcmdtype() == ':' && getcmdline() == 'w!!')
+    \?('!sudo tee % >/dev/null'):('w!!'))
+
+" Have Vim jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
+"folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set foldlevel=1
+set foldlevelstart=99
+
+" key shortcuts
+nmap ,R :!!<CR>
+
