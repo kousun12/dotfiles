@@ -1,7 +1,7 @@
 export ZSH='~/.oh-my-zsh'
 
 ZSH_THEME="robbyrussell"
-plugins=(git zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/dsa_id"
