@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'b4b4r07/vim-hcl'
 Plug 'benmills/vimux'
-Plug 'dcosson/ale'
+Plug 'w0rp/ale'
 Plug 'dcosson/vimux-nose-test2'
 Plug 'easymotion/vim-easymotion'
 Plug 'fatih/vim-go'
@@ -56,7 +56,7 @@ set showcmd
 set ai " Automatically set the indent of a new line (local to buffer)
 set ma " Allow modifiable (give nerdtree ability to modify files)
 set tags=./tags;
-set grepprg=ack
+set grepprg=rg
 " set text width so gq-like commands wrap at 100 chars
 set tw=100
 " new regex engine seems to be really slow, particularly with ruby. Set to previous one
