@@ -1,11 +1,12 @@
 export ZSH="${HOME}/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting)
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/dsa_id"
 export JAVA_HOME=$(/usr/libexec/java_home)
+export ANDROID_HOME="${HOME}/Library/Android/sdk"
 
 alias glog='git log --oneline --pretty=format:"%C(green bold dim)%h%Creset %C(auto)%d %C(cyan bold)%an%Creset %s %C(blue bold)(%cr)%Creset" --decorate --abbrev-commit --date=relative'
 alias grhh='git reset --hard @'
@@ -53,5 +54,7 @@ source "${HOME}/.bash_secrets"
 source $ZSH/oh-my-zsh.sh
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+eval "$(pyenv init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. /Users/finshared/torch/install/bin/torch-activate
