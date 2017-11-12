@@ -5,8 +5,8 @@ plugins=(git zsh-syntax-highlighting)
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/dsa_id"
-export JAVA_HOME=$(/usr/libexec/java_home)
 export ANDROID_HOME="${HOME}/Library/Android/sdk"
+export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
 alias glog='git log --oneline --pretty=format:"%C(green bold dim)%h%Creset %C(auto)%d %C(cyan bold)%an%Creset %s %C(blue bold)(%cr)%Creset" --decorate --abbrev-commit --date=relative'
 alias grhh='git reset --hard @'
