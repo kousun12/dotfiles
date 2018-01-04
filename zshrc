@@ -43,10 +43,22 @@ function chpwd() {
   ls
 }
 
+add_alias() {
+  if [[ $(rg "alias $1=" ~/.bash_aliases) ]]; then
+    echo "You already have an alias for $1"
+  else
+    echo "alias $1=\"${@:2}\"" >> ~/.bash_aliases
+    echo "made alias $1=\"${@:2}\""
+    source "${HOME}/.zshrc"
+  fi
+}
+
+
 COMPLETION_WAITING_DOTS="true"
 
 autoload bashcompinit
 bashcompinit
+source "${HOME}/.bash_aliases"
 source "${HOME}/.finrc"
 source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"

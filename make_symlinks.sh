@@ -6,6 +6,7 @@
 
 declare -a dotfile_whitelist=(
   .bash_profile\
+  .bash_aliases\
   .zshrc\
   .bash_includes\
   .gitignore\
