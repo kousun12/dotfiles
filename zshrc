@@ -57,4 +57,3 @@ eval "$(rbenv init -)"
 eval "$(pyenv init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-. /Users/finshared/torch/install/bin/torch-activate
