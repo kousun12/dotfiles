@@ -8,25 +8,8 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 export ANDROID_HOME="${HOME}/Library/Android/sdk"
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
-alias glog='git log --oneline --pretty=format:"%C(green bold dim)%h%Creset %C(auto)%d %C(cyan bold)%an%Creset %s %C(blue bold)(%cr)%Creset" --decorate --abbrev-commit --date=relative'
-alias grhh='git reset --hard @'
-alias gg='git grep -i'
-alias alog='adb logcat | grep -i'
-alias devices='adb devices'
-alias xcodeclean="rm -frd ~/Library/Developer/Xcode/DerivedData/* && rm -frd ~/Library/Caches/com.apple.dt.Xcode/*"
-alias fcore="cd ~/code/fin-core-beta"
-alias fios="cd ~/code/fin-ios"
-alias pi='bundle exec pod install'
-alias ds='./dev-scripts/docker-shell.sh'
-alias gdc='git diff --cached'
-alias glast='git for-each-ref --count=20 --sort=-committerdate refs/heads/ --format="%(refname:short)"'
-alias slint='swiftlint autocorrect'
-alias lane='bundle exec fastlane'
-alias bfg='java -jar ~/Downloads/bfg-1.12.14.jar'
-alias fsync='docker-sync start'
-alias up='git-up'
-alias com='docker-compose'
-alias c='git commit -m'
+export OPENNI2_REDIST=/usr/local/lib/ni2
+export OPENNI2_INCLUDE=/usr/local/include/ni2
 
 compctl -g '~/.teamocil/*(:t:r)' itermocil
 
