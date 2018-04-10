@@ -47,7 +47,7 @@ source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"
 
 source $ZSH/oh-my-zsh.sh
-export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$(yarn global bin):$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 eval "$(pyenv init -)"
 
