@@ -7,6 +7,7 @@ plugins=(git zsh-syntax-highlighting)
 export SSH_KEY_PATH="~/.ssh/dsa_id"
 export ANDROID_HOME="${HOME}/Library/Android/sdk"
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+export NVM_DIR="$HOME/.nvm"
 
 export OPENNI2_REDIST=/usr/local/lib/ni2
 export OPENNI2_INCLUDE=/usr/local/include/ni2
@@ -45,6 +46,8 @@ source "${HOME}/.bash_aliases"
 source "${HOME}/.finrc"
 source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
 
 source $ZSH/oh-my-zsh.sh
 export PATH="$(yarn global bin):$HOME/.rbenv/bin:$PATH"
