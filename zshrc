@@ -8,6 +8,8 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 export ANDROID_HOME="${HOME}/Library/Android/sdk"
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 export NVM_DIR="$HOME/.nvm"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 export OPENNI2_REDIST=/usr/local/lib/ni2
 export OPENNI2_INCLUDE=/usr/local/include/ni2
@@ -48,10 +50,9 @@ source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
-
 source $ZSH/oh-my-zsh.sh
-export PATH="$(yarn global bin):$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 eval "$(pyenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

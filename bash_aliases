@@ -18,3 +18,6 @@ alias up='git-up'
 alias com='docker-compose'
 alias c='git commit -m'
 alias dk="docker-compose"
+alias rn="react-native"
+alias rios="react-native run-ios --port 8083"
+alias rdb="open rndebugger://set-debugger-loc?host=localhost&port=8083"
