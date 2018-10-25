@@ -10,6 +10,7 @@ export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 export NVM_DIR="$HOME/.nvm"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export RCT_METRO_PORT=8083
 
 export OPENNI2_REDIST=/usr/local/lib/ni2
 export OPENNI2_INCLUDE=/usr/local/include/ni2
@@ -53,6 +54,6 @@ export NVM_DIR="$HOME/.nvm"
 source $ZSH/oh-my-zsh.sh
 eval "$(rbenv init -)"
 eval "$(pyenv init -)"
-export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
