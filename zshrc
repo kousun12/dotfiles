@@ -46,8 +46,8 @@ COMPLETION_WAITING_DOTS="true"
 autoload bashcompinit
 bashcompinit
 source "${HOME}/.bash_aliases"
-source "${HOME}/.finrc"
-source "${FIN_HOME}/fin-dev/bashrc"
+#source "${HOME}/.finrc"
+#source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"

@@ -33,7 +33,7 @@ Plug 'nightsense/vim-crunchbang'
 call plug#end()
 
 " Set the color scheme and background
-colorscheme crunchbang
+colorscheme breezy
 
 "Simple switching between hard tabs and spaces
 command! -nargs=* HardTab setlocal noexpandtab shiftwidth=4
