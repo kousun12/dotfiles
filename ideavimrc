@@ -124,3 +124,5 @@ set foldlevelstart=99
 " key shortcuts
 nmap ,R :!!<CR>
 
+set visualbell
+set noerrorbells
