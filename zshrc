@@ -49,11 +49,55 @@ source "${HOME}/.bash_aliases"
 #source "${HOME}/.finrc"
 #source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"
+
+# NVM Load
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
 source $ZSH/oh-my-zsh.sh
 eval "$(rbenv init -)"
 eval "$(pyenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [[ $(docker-machine status  2>/dev/null) != "Running" ]]; then docker-machine start  >/dev/null; fi
+eval $(docker-machine env)
+export HOST=$(docker-machine ip)
+export ENSE_DIR=/Users/robertcheung/code/development
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/robertcheung/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/robertcheung/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/robertcheung/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/robertcheung/google-cloud-sdk/completion.zsh.inc'; fi

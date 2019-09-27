@@ -126,3 +126,7 @@ nmap ,R :!!<CR>
 
 set visualbell
 set noerrorbells
+
+" IDEA-Vim Only options
+set selectmode=mouse,key,template,refactoring
+set keymodel=startsel

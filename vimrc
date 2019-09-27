@@ -169,6 +169,7 @@ nmap ,a ggVG"*y
 nmap ,d "*yiw
 " copy highlighted to clipboard
 vmap ,c "*y
+noremap <Leader>c "*y
 " paste 
 nmap ,v :set paste<CR>"*p:set nopaste<CR>
 " underline current line, markdown style

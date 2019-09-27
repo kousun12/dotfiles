@@ -18,6 +18,8 @@ alias up='git-up'
 alias com='docker-compose'
 alias c='git commit -m'
 alias dk="docker-compose"
-alias rn="react-native"
-alias rios="react-native run-ios --port 8083"
+alias rn="node_modules/.bin/react-native"
+alias rios='yarn ios --no-packager'
 alias rdb="open rndebugger://set-debugger-loc?host=localhost&port=8083"
+alias squad="cd \$SQUAD_MOBILE"
+alias cgrep="grep --color=always"
