@@ -81,20 +81,11 @@ export PATH="$HOME/.rbenv/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-t
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if [[ $(docker-machine status  2>/dev/null) != "Running" ]]; then docker-machine start  >/dev/null; fi
-eval $(docker-machine env)
-export HOST=$(docker-machine ip)
+# if [[ $(docker-machine status  2>/dev/null) != "Running" ]]; then docker-machine start  >/dev/null; fi
+# eval $(docker-machine env)
+# export HOST=$(docker-machine ip)
 export ENSE_DIR=/Users/robertcheung/code/development
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/robertcheung/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
+export ENSE_MOBILE=/Users/robertcheung/code/ense-rn
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/robertcheung/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/robertcheung/google-cloud-sdk/path.zsh.inc'; fi
