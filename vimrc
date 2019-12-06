@@ -271,3 +271,6 @@ let g:vimux_ruby_file_relative_paths = 1
 autocmd FileType ruby map <Leader>ra :call VimuxRunCommand("rspec")<CR>
 autocmd FileType ruby map <Leader>rF :call VimuxRunCommand("clear; ./bin/rspec " . expand("%."))<CR>
 autocmd FileType ruby map <Leader>rf :call VimuxRunCommand("clear; ./bin/rspec " . expand("%.") . ":" . line("."))<CR>
+
+set noerrorbells
+set vb t_vb=

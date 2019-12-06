@@ -44,6 +44,7 @@ brew install yarn
 
 brew tap caskroom/cask
 brew cask install spectacle \
+  1password \
   alfred \
   docker \
   flux \
