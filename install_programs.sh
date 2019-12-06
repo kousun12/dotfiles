@@ -40,6 +40,8 @@ brew install git-lfs
 brew install vim
 brew install yarn
 
+brew tap heroku/brew && brew install heroku
+
 # install casks
 
 brew tap caskroom/cask
