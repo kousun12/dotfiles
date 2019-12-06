@@ -14,6 +14,10 @@ export RCT_METRO_PORT=8083
 
 export OPENNI2_REDIST=/usr/local/lib/ni2
 export OPENNI2_INCLUDE=/usr/local/include/ni2
+export OPENSSL_ROOT="$(brew --prefix openssl)"
+export LDFLAGS="-L${OPENSSL_ROOT}/lib"
+export CPPFLAGS="-I${OPENSSL_ROOT}/include"
+export PKG_CONFIG_PATH="${OPENSSL_ROOT}/lib/pkgconfig"
 
 compctl -g '~/.teamocil/*(:t:r)' itermocil
 
@@ -77,7 +81,7 @@ load-nvmrc
 source $ZSH/oh-my-zsh.sh
 eval "$(rbenv init -)"
 eval "$(pyenv init -)"
-export PATH="$HOME/.rbenv/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+export PATH="$OPENSSL_ROOT/bin:$HOME/.rbenv/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

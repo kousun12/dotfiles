@@ -22,3 +22,4 @@ alias rn="node_modules/.bin/react-native"
 alias rios='yarn ios --no-packager'
 alias rdb="open rndebugger://set-debugger-loc?host=localhost&port=8083"
 alias cgrep="grep --color=always"
+alias knex="./node_modules/knex/bin/cli.js"
