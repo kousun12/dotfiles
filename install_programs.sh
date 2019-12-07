@@ -53,6 +53,7 @@ brew cask install spectacle \
   iterm2 \
   java \
   jetbrains-toolbox \
+  postman \
   spotify \
   google-chrome \
   vlc
