@@ -51,6 +51,7 @@ brew cask install spectacle \
   docker \
   flux \
   iterm2 \
+  istat-menus \
   java \
   jetbrains-toolbox \
   postman \
