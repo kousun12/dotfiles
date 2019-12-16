@@ -85,6 +85,9 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
 
+# Save screenshots to ~/Screenshots
+defaults write com.apple.screencapture location ~/Screenshots
+
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
