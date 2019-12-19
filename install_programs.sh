@@ -33,6 +33,7 @@ brew install sfnt2woff-zopfli
 brew install woff2
 
 # Install other useful binaries.
+brew install ripgrep
 brew install ack
 brew install git
 brew install git-lfs
