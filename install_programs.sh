@@ -40,6 +40,7 @@ brew install git-lfs
 
 brew install vim
 brew install yarn
+brew install fzf
 
 brew tap heroku/brew && brew install heroku
 
