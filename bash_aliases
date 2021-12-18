@@ -23,3 +23,4 @@ alias rios='yarn ios --no-packager'
 alias rdb="open rndebugger://set-debugger-loc?host=localhost&port=8083"
 alias cgrep="grep --color=always"
 alias knex="./node_modules/knex/bin/cli.js"
+alias prod-shell="heroku run "./scripts/cli --experimental-repl-await" -a substack"

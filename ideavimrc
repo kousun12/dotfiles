@@ -128,5 +128,5 @@ set visualbell
 set noerrorbells
 
 " IDEA-Vim Only options
-set selectmode=mouse,key,template,refactoring
+set selectmode=mouse,key,ideaselection
 set keymodel=startsel

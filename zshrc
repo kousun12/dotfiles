@@ -1,7 +1,8 @@
 export ZSH="${HOME}/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
-plugins=(git zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting zsh-completions)
+
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -19,18 +20,17 @@ export LDFLAGS="-L${OPENSSL_ROOT}/lib"
 export CPPFLAGS="-I${OPENSSL_ROOT}/include"
 export PKG_CONFIG_PATH="${OPENSSL_ROOT}/lib/pkgconfig"
 
-compctl -g '~/.teamocil/*(:t:r)' itermocil
+# compctl -g '~/.teamocil/*(:t:r)' itermocil
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 autoload -U compinit
-compinit -u
+compinit
 
 ZSH_THEME="robbyrussell"
 function chpwd() {
-  emulate -L zsh
   ls
 }
 
@@ -44,14 +44,16 @@ add_alias() {
   fi
 }
 
+filenamed() {
+  rg -g "**/*$1*" --files
+}
+
 
 COMPLETION_WAITING_DOTS="true"
 
-autoload bashcompinit
-bashcompinit
+# autoload bashcompinit
+# bashcompinit
 source "${HOME}/.bash_aliases"
-#source "${HOME}/.finrc"
-#source "${FIN_HOME}/fin-dev/bashrc"
 source "${HOME}/.bash_secrets"
 
 # NVM Load
@@ -80,20 +82,14 @@ load-nvmrc
 
 source $ZSH/oh-my-zsh.sh
 eval "$(rbenv init -)"
-eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
 export PATH="$OPENSSL_ROOT/bin:$HOME/.rbenv/bin:$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files'
 
-# if [[ $(docker-machine status  2>/dev/null) != "Running" ]]; then docker-machine start  >/dev/null; fi
-# eval $(docker-machine env)
-# export HOST=$(docker-machine ip)
-export ENSE_DIR=/Users/robertcheung/code/development
-export ENSE_MOBILE=/Users/robertcheung/code/ense-rn
+export PATH="$PATH:$HOME/code/sq"
+# eval "$(_SQ_COMPLETE=zsh_source sq)"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/robertcheung/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/robertcheung/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/robertcheung/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/robertcheung/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/postgresql@12/bin:$PATH"

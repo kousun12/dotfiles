@@ -58,6 +58,7 @@ brew cask install spectacle \
   jetbrains-toolbox \
   postman \
   spotify \
+  syntax-highlight \
   google-chrome \
   vlc
 
