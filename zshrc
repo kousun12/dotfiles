@@ -93,3 +93,10 @@ export PATH="$PATH:$HOME/code/sq"
 
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+if [ -d "$HOME/code/ai-python" ] ; then
+  export PATH="$PATH:$HOME/code/ai-python"
+  eval "$(_AI_COMPLETE=zsh_source ai)"
+  # I also alias to just `a`  and `c`;)
+  alias a="ai"
+  alias c="ai --rc"
+fi
