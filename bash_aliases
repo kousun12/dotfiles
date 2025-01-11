@@ -79,7 +79,7 @@ EOF
 Parse the above for distinct claims. Each one should be succinct, at most one sentence" | llm -m claude-3-5-haiku-latest --no-stream -s "$system_prompt"
 }
 
-transcribe() {
+ transcribe() {
     local url=""
     local title=""
     local temp_dir="/tmp/transcribe_$$"
@@ -118,9 +118,11 @@ transcribe() {
     local output_dir="$HOME/Transcripts/$title"
     mkdir -p "$output_dir"
 
-    # Check if transcript already exists
-    if [ -f "$output_dir/transcript.json" ]; then
-        echo "Transcript already exists at: $output_dir/transcript.json"
+    # Check if all output files exist
+    if [ -f "$output_dir/transcript.json" ] && \
+       [ -f "$output_dir/summary.md" ] && \
+       [ -f "$output_dir/audio.m4a" ]; then
+        echo "All output files already exist in: $output_dir"
         return 0
     fi
 
@@ -165,94 +167,99 @@ transcribe() {
         echo "Audio uploaded to: $audio_url"
     fi
 
-    # Submit transcription request
-    echo "Submitting transcription request..."
-    local response=$(curl --silent --request POST \
-        --url https://queue.fal.run/fal-ai/whisper \
-        --header "Authorization: Key $FAL_KEY" \
-        --header "Content-Type: application/json" \
-        --data "{
-            \"audio_url\": \"$audio_url\",
-            \"task\": \"transcribe\",
-            \"chunk_level\": \"segment\",
-            \"version\": \"3\",
-            \"batch_size\": 64,
-            \"language\": \"en\"
-        }")
+    # Check if transcript.json exists before proceeding with transcription
+    if [ ! -f "$output_dir/transcript.json" ]; then
+        # Submit transcription request
+        echo "Submitting transcription request..."
+        local response=$(curl --silent --request POST \
+            --url https://queue.fal.run/fal-ai/whisper \
+            --header "Authorization: Key $FAL_KEY" \
+            --header "Content-Type: application/json" \
+            --data "{
+                \"audio_url\": \"$audio_url\",
+                \"task\": \"transcribe\",
+                \"chunk_level\": \"segment\",
+                \"version\": \"3\",
+                \"batch_size\": 64,
+                \"language\": \"en\"
+            }")
 
-    local request_id=$(echo "$response" | grep -o '"request_id": *"[^"]*"' | sed 's/"request_id": *//; s/"//g')
-    if [ -z "$request_id" ]; then
-        echo "Error: Failed to get request ID from response"
-        return 1
-    fi
-
-    echo "Waiting for transcription to complete..."
-    local transcription_status=""
-    local max_attempts=60
-    local attempt=0
-
-    while [ $attempt -lt $max_attempts ]; do
-        transcription_status=$(curl --silent --request GET \
-            --url "https://queue.fal.run/fal-ai/whisper/requests/$request_id/status" \
-            --header "Authorization: Key $FAL_KEY" | grep -o '"status": *"[^"]*"' | sed 's/"status": *//; s/"//g')
-
-        if [ "$transcription_status" = "COMPLETED" ]; then
-            break
-        elif [ "$transcription_status" = "FAILED" ]; then
-            echo "Error: Transcription failed"
+        local request_id=$(echo "$response" | grep -o '"request_id": *"[^"]*"' | sed 's/"request_id": *//; s/"//g')
+        if [ -z "$request_id" ]; then
+            echo "Error: Failed to get request ID from response"
             return 1
         fi
 
-        echo -n "."
-        sleep 5
-        ((attempt++))
-    done
-    echo
+        echo "Waiting for transcription to complete..."
+        local transcription_status=""
+        local max_attempts=60
+        local attempt=0
 
-    if [ $attempt -eq $max_attempts ]; then
-        echo "Error: Transcription timed out"
-        return 1
+        while [ $attempt -lt $max_attempts ]; do
+            transcription_status=$(curl --silent --request GET \
+                --url "https://queue.fal.run/fal-ai/whisper/requests/$request_id/status" \
+                --header "Authorization: Key $FAL_KEY" | grep -o '"status": *"[^"]*"' | sed 's/"status": *//; s/"//g')
+
+            if [ "$transcription_status" = "COMPLETED" ]; then
+                break
+            elif [ "$transcription_status" = "FAILED" ]; then
+                echo "Error: Transcription failed"
+                return 1
+            fi
+
+            echo -n "."
+            sleep 5
+            ((attempt++))
+        done
+        echo
+
+        if [ $attempt -eq $max_attempts ]; then
+            echo "Error: Transcription timed out"
+            return 1
+        fi
+
+        # Get the transcription result
+        echo "Retrieving transcription..."
+        local result=$(curl --silent --request GET \
+            --url "https://queue.fal.run/fal-ai/whisper/requests/$request_id" \
+            --header "Authorization: Key $FAL_KEY")
+
+        echo "$result" > "$output_dir/transcript.json"
+        echo "Transcription saved to: $output_dir/transcript.json"
+    else
+        echo "Using existing transcript.json"
+        local result=$(cat "$output_dir/transcript.json")
     fi
 
-    # Get the transcription result
-    echo "Retrieving transcription..."
-    local result=$(curl --silent --request GET \
-        --url "https://queue.fal.run/fal-ai/whisper/requests/$request_id" \
-        --header "Authorization: Key $FAL_KEY")
+    # Only run post-processing if summary.md doesn't exist
+    if [ ! -f "$output_dir/summary.md" ]; then
+        echo "Generating summary..."
 
-    echo "$result" > "$output_dir/transcript.json"
-    echo "Transcription saved to: $output_dir/transcript.json"
+        # Run summarize and parse_claims in parallel and save to temporary files
+        {
+            echo "$result" | jq ".text" | summarize > "$output_dir/_summary.md" &
+            echo "$result" | jq ".text" | parse_claims > "$output_dir/_claims.md" &
+            wait
+        } 2>/dev/null
+        # Combine the results into a single markdown file with proper headers
+        {
+            echo "| Type | URL |"
+            echo "|------|-----|"
+            echo "| Video | $url |"
+            echo "| Audio | $audio_url |"
+            echo
+            cat "$output_dir/_summary.md"
+            echo
+            cat "$output_dir/_claims.md"
+        } > "$output_dir/summary.md"
+        
+        echo "Summary saved to: $output_dir/summary.md"
+    else
+        echo "Post-processing already completed"
+    fi
 
-    echo "Postprocessing summary..."
-
-    # Run summarize and parse_claims in parallel and save to temporary files
-    {
-        echo "$result" | jq ".text" | summarize > "$output_dir/_summary.md" &
-        echo "$result" | jq ".text" | parse_claims > "$output_dir/_claims.md" &
-        wait
-    }
-
-    # Combine the results into a single markdown file with proper headers
-    {
-        echo "# Transcript Analysis"
-        echo
-        echo "## Video URL"
-        echo "$url"
-        echo
-        echo "## Hosted Audio"
-        echo "$audio_url"
-        echo
-        echo "## Summary"
-        cat "$output_dir/_summary.md"
-        echo
-        echo "## Key Claims"
-        cat "$output_dir/_claims.md"
-    } > "$output_dir/summary.md"
-
-    echo "Summary saved to: $output_dir/summary.md"
     return 0
 }
-
 alias glog='git log --oneline --pretty=format:"%C(green bold dim)%h%Creset %C(auto)%d %C(cyan bold)%an%Creset %s %C(blue bold)(%cr)%Creset" --decorate --abbrev-commit --date=relative'
 alias grhh='git reset --hard @'
 alias gg='git grep -i'
